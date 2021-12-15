@@ -10,15 +10,16 @@ const UserSchema = new Schema(
     location: {
       latitude: {
         type: Number,
-        required: true,
       },
       longitude: {
         type: Number,
-        required: true,
       },
     },
+    date: {
+      type: String,
+    },
   },
-  { timestamps: true },
+  // { timestamps: true },
 );
 
 const User = mongoose.model('user', UserSchema);

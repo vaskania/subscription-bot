@@ -1,6 +1,17 @@
+const User = require('../model/user');
 const cron = require('node-cron');
+const moment = require('moment');
 
-cron.schedule('* * * * *', () => {
-  // eslint-disable-next-line no-console
-  console.log('5 star means code run every minute');
+module.exports = cron.schedule('* * * * *', () => {
+  findTime();
 });
+
+const findTime = async () => {
+  const currentTime = moment(new Date()).format('HH:mm');
+  console.log(currentTime);
+
+  const match = await User.find({ date: currentTime });
+  if (match) {
+    console.log('match');
+  }
+};
