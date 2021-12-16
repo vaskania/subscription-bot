@@ -3,14 +3,13 @@ const User = require('../model/user');
 const setUserTime = (userId, time) => {
   const newUser = new User({
     chatId: userId,
-    date: time,
+    time,
   });
   newUser.save();
 };
 
-const updateUserTime = (userId, time) => {
-  return User.findOneAndUpdate({ chatId: userId }, { date: time });
-};
+const updateUserTime = (userId, time) =>
+  User.findOneAndUpdate({ chatId: userId }, { time });
 
 const setTime = async (id, time) => {
   const user = await User.findOne({ chatId: id });

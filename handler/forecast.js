@@ -13,6 +13,7 @@ const getWeather = async (coordinates) => {
       city: data.name,
       temp: data.main.temp,
       description: data.weather[0].description,
+      timezone: data.timezone,
     };
   } catch (error) {
     logger.error("Server doesn't response.");

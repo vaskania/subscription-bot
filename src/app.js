@@ -2,10 +2,10 @@ const TOKEN =
   process.env.TELEGRAM_TOKEN ||
   '5079396565:AAFzITDPOncLBHBVqDtmk4z70gwxyFWB1Ck';
 const TelegramBot = require('node-telegram-bot-api');
+// eslint-disable-next-line no-unused-vars
 const db = require('../db/db');
 const getWeather = require('../handler/forecast');
 const setUser = require('../db/user');
-const convertTime = require('../helper/convertTime');
 const setTime = require('../db/setTime');
 const cron = require('../scheduler/cron');
 
@@ -26,8 +26,7 @@ bot.onText(/start/, (msg) => {
 });
 
 bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
-  const userTime = await convertTime(msg.text);
-  setTime(msg.chat.id, userTime);
+  await setTime(msg.chat.id, msg.text);
 
   bot.sendMessage(msg.chat.id, 'Give me location', {
     reply_markup: replyMarkup,
@@ -38,8 +37,9 @@ bot.on('location', async (msg) => {
   const { location } = msg;
 
   try {
-    const { city, temp, description } = await getWeather(location);
-    await setUser(msg);
+    const { city, temp, description, timezone } = await getWeather(location);
+
+    await setUser(msg, timezone);
 
     bot.sendMessage(
       msg.chat.id,

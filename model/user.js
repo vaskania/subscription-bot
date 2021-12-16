@@ -15,7 +15,7 @@ const UserSchema = new Schema(
         type: Number,
       },
     },
-    date: {
+    time: {
       type: String,
     },
   },

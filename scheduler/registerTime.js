@@ -1,18 +1,17 @@
-//  not used
+const registerTime = (userTimezone, inputTime) => {
+  const user = userTimezone / 3600;
+  const serverTime = new Date();
+  const userTime = inputTime.split(':');
 
-const moment = require('moment');
+  let setTime = +userTime[0] - serverTime.getTimezoneOffset() / -60 + user;
 
-const userTime = new Date();
-
-const registerTime = () => {
-  const currentTime = moment(userTime).format('HH:mm');
-  const hour = currentTime.split(':');
-  let time = +hour[0] + userTime.getTimezoneOffset() / 60;
-  if (time < 0) {
-    time = +12;
+  if (setTime < 0) {
+    setTime = +12;
+  } else if (setTime < 10) {
+    setTime += '0';
   }
-  hour[0] = time;
-  return hour.join(':');
+  userTime[0] = setTime;
+  return userTime.join(':');
 };
 
 module.exports = registerTime;
