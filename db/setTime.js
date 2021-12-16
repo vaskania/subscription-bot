@@ -12,7 +12,6 @@ const setUserTime = (userId) => {
 const updateUserTime = async (userId, userTime) => {
   const time = await User.findOne({ chatId: userId });
   const setUser = registerTime(time.timezone, userTime);
-  console.log(typeof setUser);
   await User.findOneAndUpdate({ chatId: userId }, { schedule: setUser });
   console.log('update time');
 };
