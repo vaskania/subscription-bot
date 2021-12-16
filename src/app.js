@@ -62,5 +62,3 @@ const responseSchedule = async (location, id) => {
 bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
   await setTime(msg.chat.id, msg.text);
 });
-
-module.exports = responseSchedule;
