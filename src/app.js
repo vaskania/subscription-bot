@@ -48,6 +48,19 @@ bot.on('location', async (msg) => {
   }
 });
 
+const responseSchedule = async (location, id) => {
+  const { city, temp, description } = await getWeather(location);
+  return bot.sendMessage(
+    id,
+    `Current weather in <code>${city}</code> is <b>${Math.floor(
+      temp,
+    )}</b> celsius and <pre>${description}</pre>`,
+    { parse_mode: 'HTML' },
+  );
+};
+
 bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
   await setTime(msg.chat.id, msg.text);
 });
+
+module.exports = responseSchedule;
