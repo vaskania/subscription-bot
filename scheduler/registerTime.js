@@ -1,9 +1,9 @@
 const registerTime = (userTimezone, inputTime) => {
-  const user = userTimezone / 3600;
   const serverTime = new Date();
   const userTime = inputTime.split(':');
 
-  let setTime = +userTime[0] - serverTime.getTimezoneOffset() / -60 + user;
+  let setTime =
+    +userTime[0] - serverTime.getTimezoneOffset() / -60 + userTimezone;
 
   if (setTime < 0) {
     setTime = +12;

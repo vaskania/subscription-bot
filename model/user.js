@@ -15,7 +15,10 @@ const UserSchema = new Schema(
         type: Number,
       },
     },
-    time: {
+    timezone: {
+      type: Number,
+    },
+    schedule: {
       type: String,
     },
   },

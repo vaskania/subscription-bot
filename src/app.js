@@ -22,12 +22,6 @@ const bot = new TelegramBot(TOKEN, {
 });
 
 bot.onText(/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, 'Please set time HH:MM');
-});
-
-bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
-  await setTime(msg.chat.id, msg.text);
-
   bot.sendMessage(msg.chat.id, 'Give me location', {
     reply_markup: replyMarkup,
   });
@@ -41,14 +35,19 @@ bot.on('location', async (msg) => {
 
     await setUser(msg, timezone);
 
-    bot.sendMessage(
+    await bot.sendMessage(
       msg.chat.id,
       `Current weather in <code>${city}</code> is <b>${Math.floor(
         temp,
       )}</b> celsius and <pre>${description}</pre>`,
       { parse_mode: 'HTML' },
     );
+    bot.sendMessage(msg.chat.id, 'Please set time HH:MM');
   } catch (error) {
     bot.sendMessage(msg.chat.id, `${error}`, { reply_markup: replyMarkup });
   }
+});
+
+bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
+  await setTime(msg.chat.id, msg.text);
 });

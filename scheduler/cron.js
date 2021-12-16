@@ -4,7 +4,6 @@ const User = require('../model/user');
 
 const findTime = async () => {
   const currentTime = moment(new Date()).format('HH:mm');
-  console.log(currentTime);
 
   const match = await User.find({ date: currentTime });
   if (match === currentTime) {
