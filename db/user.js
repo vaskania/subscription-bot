@@ -1,31 +1,42 @@
 const User = require('../model/user');
+const logger = require('../src/logger');
 
 const createUserLocation = (userId, timezone) => {
-  const newUser = new User({
-    chatId: userId.chat.id,
-    location: userId.location,
-    timezone: timezone / 3600,
-  });
-  console.log('create location');
-  newUser.save();
+  try {
+    const newUser = new User({
+      chatId: userId.chat.id,
+      location: userId.location,
+      timezone: timezone / 3600,
+    });
+    logger.info('create location');
+    newUser.save();
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
-const updateUserLocation = async (userId) => {
-  User.findOneAndUpdate(
-    { chatId: userId.chat.id },
-    { location: userId.location },
-  );
-  console.log('update location');
+const updateUserLocation = async (userId, timezone) => {
+  try {
+    await User.findOneAndUpdate(
+      { chatId: userId.chat.id },
+      { location: userId.location },
+      { timezone: timezone / 3600 },
+    );
+    logger.info('update location');
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 const setUser = async (msg, timezone) => {
-  const user = await User.findOne(
-    { chatId: msg.chat.id },
-    { location: msg.location },
-  );
-  if (!user) {
-    return createUserLocation(msg, timezone);
+  try {
+    const user = await User.findOne({ chatId: msg.chat.id });
+    if (!user) {
+      return createUserLocation(msg, timezone);
+    }
+    return updateUserLocation(msg, timezone);
+  } catch (error) {
+    throw new Error(error);
   }
-  return updateUserLocation(msg);
 };
 
 module.exports = setUser;

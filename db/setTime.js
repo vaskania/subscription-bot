@@ -1,27 +1,14 @@
 const User = require('../model/user');
 const registerTime = require('../scheduler/registerTime');
 
-const setUserTime = (userId) => {
-  const newUser = new User({
-    chatId: userId,
-  });
-  console.log('set time');
-  newUser.save();
-};
-
-const updateUserTime = async (userId, userTime) => {
-  const time = await User.findOne({ chatId: userId });
-  const setUser = registerTime(time.timezone, userTime);
-  await User.findOneAndUpdate({ chatId: userId }, { schedule: setUser });
-  console.log('update time');
-};
-
-const setTime = async (id, userTime) => {
-  const user = await User.findOne({ chatId: id });
-  if (!user) {
-    return setUserTime(id);
+const setUserTime = async (userId, userTime) => {
+  try {
+    const time = await User.findOne({ chatId: userId });
+    const setUser = registerTime(time.timezone, userTime);
+    await User.findOneAndUpdate({ chatId: userId }, { schedule: setUser });
+  } catch (error) {
+    throw new Error(error);
   }
-  return updateUserTime(id, userTime);
 };
 
-module.exports = setTime;
+module.exports = setUserTime;

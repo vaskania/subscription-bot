@@ -8,7 +8,7 @@ const registerTime = (userTimezone, inputTime) => {
   if (setTime < 0) {
     setTime = +12;
   } else if (setTime < 10) {
-    setTime += '0';
+    setTime = `0${setTime}`;
   }
   userTime[0] = setTime;
   return userTime.join(':');

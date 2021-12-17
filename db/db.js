@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('../src/logger');
 
 const db = mongoose
   .connect(
@@ -6,10 +7,10 @@ const db = mongoose
       'mongodb+srv://vaskania:Hofmann123@cluster0.vfszr.mongodb.net/forecast?retryWrites=true&w=majority',
   )
   .then(() => {
-    console.log('Connected to db');
+    logger.info('Connected to db');
   })
   .catch((error) => {
-    console.error(error);
+    logger.error(error);
   });
 
 module.exports = db;
