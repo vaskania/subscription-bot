@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
-const logger = require('../src/logger');
+const logger = require('../log/logger');
 
 const db = mongoose
-  .connect(
-    process.env.DB_URI ||
-      'mongodb+srv://vaskania:Hofmann123@cluster0.vfszr.mongodb.net/forecast?retryWrites=true&w=majority',
-  )
+  .connect(process.env.DB_URI)
   .then(() => {
     logger.info('Connected to db');
   })

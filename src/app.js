@@ -1,14 +1,12 @@
-const TOKEN =
-  process.env.TELEGRAM_TOKEN ||
-  '5079396565:AAFzITDPOncLBHBVqDtmk4z70gwxyFWB1Ck';
+const TOKEN = process.env.TELEGRAM_TOKEN;
 const TelegramBot = require('node-telegram-bot-api');
 // eslint-disable-next-line no-unused-vars
-const db = require('../db/db');
-const User = require('../model/user');
-const getWeather = require('../handler/forecast');
-const setUser = require('../db/user');
-const setTime = require('../db/setTime');
-const findTime = require('../scheduler/cron');
+const db = require('./db/db');
+const User = require('./model/user');
+const getWeather = require('./handler/forecast');
+const setUser = require('./db/user');
+const setTime = require('./db/setTime');
+const findTime = require('./scheduler/cron');
 
 const replyMarkup = {
   keyboard: [[{ text: 'Location', request_location: true }]],
