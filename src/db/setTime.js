@@ -1,6 +1,6 @@
 const User = require('../model/user');
 const registerTime = require('../scheduler/registerTime');
-const logger = require('../src/logger');
+const logger = require('../log/logger');
 
 const setUserTime = async (userId, userTime) => {
   try {

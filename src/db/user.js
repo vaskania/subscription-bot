@@ -1,5 +1,5 @@
 const User = require('../model/user');
-const logger = require('../src/logger');
+const logger = require('../log/logger');
 
 const createUserLocation = (userId, timezone) => {
   try {
