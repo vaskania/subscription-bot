@@ -11,7 +11,7 @@ const createUserLocation = (chatId, timezone) => {
     logger.info('Create location');
     newUser.save();
   } catch (error) {
-    throw new Error(error);
+    throw new Error('Location is not setted');
   }
 };
 
@@ -24,7 +24,7 @@ const updateUserLocation = async (chatId, timezone) => {
     );
     logger.info('Update location');
   } catch (error) {
-    throw new Error(error);
+    throw new Error("Couldn't update location");
   }
 };
 const setUser = async (msg, timezone) => {
@@ -36,7 +36,7 @@ const setUser = async (msg, timezone) => {
     }
     return updateUserLocation(chatId, timezone);
   } catch (error) {
-    throw new Error(error);
+    throw new Error('Something went wrong.');
   }
 };
 
