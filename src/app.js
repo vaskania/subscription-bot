@@ -1,6 +1,5 @@
 const TOKEN = process.env.TELEGRAM_TOKEN;
 const TelegramBot = require('node-telegram-bot-api');
-// eslint-disable-next-line no-unused-vars
 const { connectDB, closeDB } = require('./db/db');
 const User = require('./model/user');
 const getWeather = require('./handler/forecast');
@@ -63,7 +62,6 @@ findTime(bot);
 
 const shutdown = () => {
   closeDB();
-  logger.info('DB closed');
   process.exit(0);
 };
 
