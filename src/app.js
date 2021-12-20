@@ -1,6 +1,4 @@
-const TOKEN =
-  process.env.TELEGRAM_TOKEN ||
-  '5072882084:AAEUoAJeJB8kp9guJXAJ-a5LKJZUULW35Vk';
+const TOKEN = process.env.TELEGRAM_TOKEN;
 const TelegramBot = require('node-telegram-bot-api');
 const { connectDB, closeDB } = require('./db/db');
 const User = require('./model/user');
@@ -20,7 +18,7 @@ const bot = new TelegramBot(TOKEN, {
   polling: true,
 });
 
-connectDB();
+await connectDB();
 
 bot.onText(/start/, (msg) => {
   bot.sendMessage(msg.chat.id, 'Give me location', {
