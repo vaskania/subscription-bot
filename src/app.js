@@ -60,7 +60,8 @@ bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
 
 findTime(bot);
 
-const shutdown = () => {
+const shutdown = async () => {
+  await bot.close();
   closeDB();
   process.exit(0);
 };
