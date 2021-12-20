@@ -1,4 +1,6 @@
-const TOKEN = process.env.TELEGRAM_TOKEN;
+const TOKEN =
+  process.env.TELEGRAM_TOKEN ||
+  '5072882084:AAEUoAJeJB8kp9guJXAJ-a5LKJZUULW35Vk';
 const TelegramBot = require('node-telegram-bot-api');
 const { connectDB, closeDB } = require('./db/db');
 const User = require('./model/user');
@@ -61,9 +63,16 @@ bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
 findTime(bot);
 
 const shutdown = async () => {
-  await bot.close();
-  closeDB();
-  process.exit(0);
+  logger.info('Signal received: Gracefully killing application');
+  const promises = [bot.close(), closeDB()];
+  return Promise.all(promises)
+    .then(() => {
+      logger.info('Application closed');
+      process.exit(0);
+    })
+    .catch((error) => {
+      logger.error(error);
+    });
 };
 
 process.on('SIGINT', shutdown);
