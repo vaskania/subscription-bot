@@ -18,7 +18,9 @@ const bot = new TelegramBot(TOKEN, {
   polling: true,
 });
 
-await connectDB();
+(async () => {
+  await connectDB();
+})();
 
 bot.onText(/start/, (msg) => {
   bot.sendMessage(msg.chat.id, 'Give me location', {
