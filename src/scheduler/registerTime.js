@@ -1,6 +1,5 @@
 const registerTime = (userTimezone, inputTime) => {
   const serverTime = new Date();
-  console.log(serverTime.getTimezoneOffset());
   const userTime = inputTime.split(':');
 
   let setTime =
@@ -14,7 +13,5 @@ const registerTime = (userTimezone, inputTime) => {
   userTime[0] = setTime;
   return userTime.join(':');
 };
-
-console.log(registerTime(4, '20:00'));
 
 module.exports = registerTime;

@@ -7,14 +7,14 @@ const logger = require('../log/logger');
 const findTime = async (bot) => {
   cron.schedule('* * * * *', async () => {
     const currentTime = moment(new Date()).format('HH:mm');
-    logger.info(currentTime);
     try {
-      const match = await User.find({ schedule: currentTime });
+      const matchedUsers = await User.find({ schedule: currentTime });
 
-      match.map(async (el) => {
+      matchedUsers.map(async (el) => {
         if (el.schedule === currentTime) {
           const { location } = el;
           const { city, temp, description } = await getWeather(location);
+          logger.info(location);
           await bot.sendMessage(
             el.chatId,
             `Current weather in <code>${city}</code> is <b>${Math.floor(
