@@ -17,7 +17,7 @@ const getWeather = async (coordinates) => {
     };
   } catch (error) {
     logger.error("Server doesn't response.");
-    throw new Error("Couldn't fetch data from server");
+    throw new Error("Couldn't send data to database");
   }
 };
 
