@@ -1,14 +1,14 @@
 const cron = require('node-cron');
 const moment = require('moment');
-const User = require('../model/user');
 const getWeather = require('../handler/forecast');
+const matchedUserTime = require('../db/user');
 const logger = require('../log/logger');
 
 const findTime = async (bot) => {
   cron.schedule('* * * * *', async () => {
     const currentTime = moment(new Date()).format('HH:mm');
 
-    const matchedUsers = await User.find({ schedule: currentTime });
+    const matchedUsers = await matchedUserTime(currentTime);
 
     matchedUsers.map(async (el) => {
       if (el.schedule === currentTime) {

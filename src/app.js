@@ -1,9 +1,8 @@
 const TOKEN = process.env.TELEGRAM_TOKEN;
 const TelegramBot = require('node-telegram-bot-api');
 const { connectDB, closeDB } = require('./db/db');
-const User = require('./model/user');
 const getWeather = require('./handler/forecast');
-const setUser = require('./db/user');
+const { setUser, findUser, setUserTime } = require('./db/user');
 const findTime = require('./scheduler/cron');
 const registerTime = require('./scheduler/registerTime');
 const logger = require('./log/logger');
@@ -41,18 +40,15 @@ bot.on('location', async (msg) => {
 });
 
 bot.onText(/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, async (msg) => {
-  const user = await User.findOne({ chatId: msg.chat.id });
-  if (!user) {
+  const userLocation = await findUser(msg.chat.id);
+  if (!userLocation) {
     return bot.sendMessage(msg.chat.id, 'Give me location', {
       reply_markup: replyMarkup,
     });
   }
   try {
-    const setUserTime = registerTime(user.timezone, msg.text);
-    await User.findOneAndUpdate(
-      { chatId: msg.chat.id },
-      { schedule: setUserTime },
-    );
+    const userTime = registerTime(userLocation.timezone, msg.text);
+    await setUserTime(msg.chat.id, userTime);
     logger.info(`Time setted for ${msg.chat.username}`);
   } catch (error) {
     throw new Error(error);

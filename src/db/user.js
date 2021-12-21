@@ -11,6 +11,7 @@ const createUserLocation = (chatId, timezone) => {
     logger.info('Create location');
     newUser.save();
   } catch (error) {
+    logger.error(error);
     throw new Error('Location is not setted');
   }
 };
@@ -40,4 +41,19 @@ const setUser = async (msg, timezone) => {
   }
 };
 
-module.exports = setUser;
+const findUser = async (chatId) => {
+  const user = await User.findOne({ chatId });
+  return user;
+};
+
+const setUserTime = async (chatId, userTime) => {
+  const user = await User.findOneAndUpdate({ chatId }, { schedule: userTime });
+  return user;
+};
+
+const matchedUserTime = async (currentTime) => {
+  const users = await User.find({ schedule: currentTime });
+  return users;
+};
+
+module.exports = { setUser, findUser, setUserTime, matchedUserTime };
