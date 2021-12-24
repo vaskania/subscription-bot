@@ -60,7 +60,7 @@ findTime(bot);
 
 const shutdown = async () => {
   logger.info('Signal received: Gracefully killing application');
-  const promises = [bot.close(), closeDB()];
+  const promises = [closeDB(), bot.close()];
   return Promise.all(promises)
     .then(() => {
       logger.info('Application closed');
